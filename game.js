@@ -411,7 +411,8 @@ function fbPeers(snapVal){
 }
 function initFirebaseRoom(code){
   const url=window.FIREBASE_DB_URL||'';
-  if(!window.firebase||!/^https:\/\/.+firebase/.test(url)){FB.err='firebase-config.js এ Database URL বসানো হয়নি।';roomState='none';return}
+  if(!window.firebase){FB.err='Firebase লাইব্রেরি লোড হয়নি। নেট ঠিক আছে কিনা দেখে পেজ রিলোড দাও।';roomState='none';return}
+  if(!/^https:\/\/.+firebase/.test(url)){FB.err='firebase-config.js এ URL ঠিক নেই। পাওয়া গেছে: '+(url?url.slice(0,32):'কিছুই না');roomState='none';return}
   try{
     if(!firebase.apps.length)firebase.initializeApp({databaseURL:url});
     const db=firebase.database(),base=db.ref('rooms/'+code),mine=base.child(FB.cid);
